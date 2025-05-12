@@ -1,13 +1,7 @@
 package view;
 
 import java.awt.Font;
-
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JMenu;
-import javax.swing.JMenuBar;
-import javax.swing.JMenuItem;
-import javax.swing.SwingConstants;
+import javax.swing.*;
 
 import controller.MainController;
 
@@ -15,6 +9,8 @@ public class MainView extends JFrame {
 	private JMenuItem manageMoviesMenuItem;
 	private JMenuItem bookTicketsMenuItem;
 	private JMenuItem listfilmMenuItem;
+	private JMenuItem viewHistoryMenuItem;
+	private JMenuItem loginMenuItem;
 
 	public MainView() {
 		setTitle("Hệ thống đặt vé phim");
@@ -29,10 +25,14 @@ public class MainView extends JFrame {
 		manageMoviesMenuItem = new JMenuItem("Quản lý phim");
 		bookTicketsMenuItem = new JMenuItem("Đặt vé");
 		listfilmMenuItem = new JMenuItem("Danh sách phim");
+		viewHistoryMenuItem = new JMenuItem("Xem lịch sử đặt vé");
+		loginMenuItem = new JMenuItem("Đăng nhập");
 
 		menu.add(manageMoviesMenuItem);
 		menu.add(bookTicketsMenuItem);
 		menu.add(listfilmMenuItem);
+		menu.add(viewHistoryMenuItem);
+		menu.add(loginMenuItem);
 		menuBar.add(menu);
 
 		setJMenuBar(menuBar);
@@ -50,10 +50,18 @@ public class MainView extends JFrame {
 	public JMenuItem getBookTicketsMenuItem() {
 		return bookTicketsMenuItem;
 	}
+
 	public JMenuItem getListfilmMenuItem() {
 		return listfilmMenuItem;
 	}
-	
+
+	public JMenuItem getViewHistoryMenuItem() {
+		return viewHistoryMenuItem;
+	}
+
+	public JMenuItem getLoginMenuItem() {
+		return loginMenuItem;
+	}
 
 	public static void main(String[] args) {
 		javax.swing.SwingUtilities.invokeLater(new Runnable() {
@@ -64,5 +72,4 @@ public class MainView extends JFrame {
 			}
 		});
 	}
-
 }
