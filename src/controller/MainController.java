@@ -2,12 +2,10 @@ package controller;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.List;
 
-import model.DanhSachPhim;
-import model.Phim;
-import model.QuanLyPhim;
 import view.DSPhimView;
+import view.HistoryView;
+import view.LoginView;
 import view.MainView;
 import view.QuanLyPhimView;
 
@@ -24,14 +22,27 @@ public class MainController {
                 showQuanLyPhim();
             }
         });
-        
-        
+
         mainView.getListfilmMenuItem().addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 DSPhimView view = new DSPhimView();
                 view.setVisible(true);
                 new DSPhimController(view);
+            }
+        });
+
+        mainView.getViewHistoryMenuItem().addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                new HistoryView().setVisible(true);
+            }
+        });
+
+        mainView.getLoginMenuItem().addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                new LoginView().setVisible(true);
             }
         });
     }
@@ -41,8 +52,4 @@ public class MainController {
         quanLyPhimView.setVisible(true);
         new QuanLyPhimController(quanLyPhimView);
     }
-
-   
-    
-
 }
