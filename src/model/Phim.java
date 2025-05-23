@@ -30,7 +30,7 @@ public class Phim {
 	@Override
 	public String toString() {
 		return "Ten Phim: " + tenPhim + ", The loai: " + theloai + ", Director: " + director + "\n" + "ReleaseYear: "
-				+ releaseYear + ", Duration: " + duration + ", Trang thai: " + trangthai + "\n" + "Lich Chieu: " + lichChieu;
+				+ releaseYear + ", Duration: " + duration + ", Trang thai: " + trangthai + "Lich Chieu: " + lichChieu;
 	}
 	public String getTenPhim() {
 		return tenPhim;
@@ -81,6 +81,7 @@ public class Phim {
 	public void setLichChieu(LichChieu lichChieu) {
 		this.lichChieu = lichChieu;
 	}
+	
 	
 	
 	

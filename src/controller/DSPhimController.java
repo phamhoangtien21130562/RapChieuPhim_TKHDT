@@ -5,19 +5,20 @@ import java.util.List;
 import model.DanhSachPhim;
 import model.Phim;
 import view.DSPhimView;
+import view.MainView;
 
 public class DSPhimController {
     private DanhSachPhim danhSachPhim;
-    private DSPhimView view;
+    private MainView view;
 
-    public DSPhimController(DSPhimView view) {
+    public DSPhimController(MainView view) {
         this.view = view;
         danhSachPhim = new DanhSachPhim();
         themDuLieuPhim();
         hienThiDanhSachPhim();
     }
     
-    public DSPhimController(DSPhimView view, List<Phim> danhSachPhim) {
+    public DSPhimController(MainView view, List<Phim> danhSachPhim) {
         this.view = view;
         this.danhSachPhim = new DanhSachPhim();
         for (Phim phim : danhSachPhim) {

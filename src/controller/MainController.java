@@ -22,15 +22,15 @@ public class MainController {
                 showQuanLyPhim();
             }
         });
-
-        mainView.getListfilmMenuItem().addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                DSPhimView view = new DSPhimView();
-                view.setVisible(true);
-                new DSPhimController(view);
-            }
-        });
+//
+//        mainView.getListfilmMenuItem().addActionListener(new ActionListener() {
+//            @Override
+//            public void actionPerformed(ActionEvent e) {
+//                DSPhimView view = new DSPhimView();
+//                view.setVisible(true);
+               new DSPhimController(view);
+//            }
+//        });
 
         mainView.getViewHistoryMenuItem().addActionListener(new ActionListener() {
             @Override
@@ -45,6 +45,14 @@ public class MainController {
                 new LoginView().setVisible(true);
             }
         });
+//        mainView.getBookTicketsMenuItem().addActionListener(new ActionListener() {
+//			
+//			@Override
+//			public void actionPerformed(ActionEvent e) {
+//				// TODO Auto-generated method stub
+//				new ViewDecorator().setVisible(true);
+//			}
+//		});
     }
 
     private void showQuanLyPhim() {
