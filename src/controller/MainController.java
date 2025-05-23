@@ -5,9 +5,9 @@ import java.awt.event.ActionListener;
 
 import view.DSPhimView;
 import view.HistoryView;
-import view.LoginView;
 import view.MainView;
 import view.QuanLyPhimView;
+import view.ViewDangNhap;
 
 public class MainController {
     private MainView mainView;
@@ -42,7 +42,7 @@ public class MainController {
         mainView.getLoginMenuItem().addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                new LoginView().setVisible(true);
+                new ViewDangNhap().setVisible(true);
             }
         });
 //        mainView.getBookTicketsMenuItem().addActionListener(new ActionListener() {
