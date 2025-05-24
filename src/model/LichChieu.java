@@ -18,6 +18,10 @@ public class LichChieu {
 	        return "Ngày chiếu: " + ngayChieu;
 	    }
 	
+	@Override
+	public String toString() {
+		return "Ngay chieu: " + ngayChieu + ", phong chieu: " + phongChieu;
+	}
 	public String getNgayChieu() {
 		return ngayChieu;
 	}

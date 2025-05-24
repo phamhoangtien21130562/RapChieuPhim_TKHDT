@@ -48,6 +48,13 @@ public class QuanLyPhimController {
     }
 
 
+        Phim p = new Phim(
+            view.getId(), view.getTenPhim(), view.getTheLoai(),
+            view.getDaoDien(), view.getNamSX(), view.getThoiLuong()
+        );
+        qlpmodel.themPhim(p);
+    }
+
     private void xoaPhimTheoId() {
         String id = view.getId();
         qlpmodel.xoaPhimTheoId(id);

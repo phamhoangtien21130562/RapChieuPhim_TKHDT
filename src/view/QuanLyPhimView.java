@@ -13,6 +13,9 @@ public class QuanLyPhimView extends JFrame implements Observer {
     private JButton btnThem, btnXoaTheoId;
     private JTextArea textArea;
 
+    private JTextField txtId, txtTenPhim, txtTheLoai, txtDaoDien, txtNamSX, txtThoiLuong;
+    private JButton btnThem, btnXoaTheoId;
+    private JTextArea textArea;
 
     public QuanLyPhimView() {
         setTitle("Quản Lý Phim");
@@ -21,7 +24,10 @@ public class QuanLyPhimView extends JFrame implements Observer {
         setLocationRelativeTo(null);
 
         // Panel nhập liệu phim
+
         JPanel inputPanel = new JPanel(new GridLayout(8, 2, 5, 5));
+
+        JPanel inputPanel = new JPanel(new GridLayout(6, 2, 5, 5));
         inputPanel.add(new JLabel("ID:"));
         txtId = new JTextField();
         inputPanel.add(txtId);
@@ -41,6 +47,7 @@ public class QuanLyPhimView extends JFrame implements Observer {
         inputPanel.add(new JLabel("Năm SX:"));
         txtNamSX = new JTextField();
         inputPanel.add(txtNamSX);
+
 
         inputPanel.add(new JLabel("Thời Lượng:"));
         txtThoiLuong = new JTextField();
@@ -72,6 +79,27 @@ public class QuanLyPhimView extends JFrame implements Observer {
         textArea = new JTextArea(10, 50);
         textArea.setEditable(false);
 
+
+        inputPanel.add(new JLabel("Thời Lượng:"));
+        txtThoiLuong = new JTextField();
+        inputPanel.add(txtThoiLuong);
+
+        // Panel nút thêm phim
+        JPanel btnThemPanel = new JPanel();
+        btnThem = new JButton("Thêm phim");
+        btnThemPanel.add(btnThem);
+
+        // Panel xóa theo ID (input + nút)
+        JPanel xoaPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
+        xoaPanel.add(new JLabel("Nhập ID xóa:"));
+        JTextField txtIdXoa = new JTextField(10);
+        xoaPanel.add(txtIdXoa);
+        btnXoaTheoId = new JButton("Xóa phim theo ID");
+        xoaPanel.add(btnXoaTheoId);
+
+        // TextArea hiển thị
+        textArea = new JTextArea(10, 50);
+        textArea.setEditable(false);
         // Layout tổng thể
         setLayout(new BorderLayout(5,5));
         add(inputPanel, BorderLayout.NORTH);
@@ -113,6 +141,20 @@ public class QuanLyPhimView extends JFrame implements Observer {
         }
     }
 
+
+    // Lấy ID để xóa phim
+    private JTextField txtIdXoa;
+    public String getIdXoa() {
+        return txtIdXoa.getText().trim();
+    }
+
+    // Hiển thị danh sách phim
+    public void hienThiDanhSachPhim(List<Phim> danhSach) {
+        textArea.setText("");
+        for (Phim p : danhSach) {
+            textArea.append(p.toString() + "\n");
+        }
+    }
     // Thêm thông báo ra TextArea
     public void appendThongBao(String msg) {
         textArea.append(msg + "\n");
