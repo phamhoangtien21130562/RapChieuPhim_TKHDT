@@ -45,6 +45,7 @@ public class ControllerDangNhap {
             showMessage("Đăng nhập thành công với quyền Admin.");
             
             PageAdmin pageAdmin = new PageAdmin(); // Tạo đối tượng
+            new MainController(pageAdmin);   
             pageAdmin.setVisible(true);            // Gọi đúng cách
             view.dispose();                        // Đóng cửa sổ đăng nhập nếu cần
 
@@ -52,6 +53,7 @@ public class ControllerDangNhap {
             showMessage("Đăng nhập thành công với quyền Customer.");
             
             MainView mainView = new MainView();   // Tạo đối tượng
+            new MainController(mainView);  
             mainView.setVisible(true);            // Gọi đúng cách
             view.dispose();
         }

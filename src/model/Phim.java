@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Phim {
+	private String id;
 	private String tenPhim;
 	private String theloai;
 	private String director;
@@ -15,22 +16,54 @@ public class Phim {
 	private Phim() {
 		super();
 	}
-	public Phim(String tenPhim, String theloai, String director, int releaseYear, int duration) {
+	
+	
+	public Phim(String id, String tenPhim, String theloai, String director, int releaseYear, int duration) {
 		super();
+		this.id = id;
 		this.tenPhim = tenPhim;
 		this.theloai = theloai;
 		this.director = director;
 		this.releaseYear = releaseYear;
 		this.duration = duration;
-		this.trangthai = "Chua chieu";
-		this.observers = new ArrayList<>();
-		this.lichChieu = new LichChieu();
 	}
-	
+
+
+	public Phim(String id, String tenPhim, String theloai, String director, int releaseYear, int duration, String trangthai, LichChieu lichChieu) {
+		super();
+		this.id = id;
+		this.tenPhim = tenPhim;
+		this.theloai = theloai;
+		this.director = director;
+		this.releaseYear = releaseYear;
+		this.duration = duration;
+		this.trangthai = trangthai;
+		this.observers = new ArrayList<>();
+		this.lichChieu = lichChieu;
+	}
+//	@Override
+//	public String toString() {
+//	    return String.format(
+//	        "ID: %s | Tên: %s | Thể loại: %s | Đạo diễn: %s | Năm: %d | Thời lượng: %d phút | Trạng thái: %s | %s",
+//	        id, tenPhim, theloai, director, releaseYear, duration, trangthai, lichChieu.toString()
+//	    );
+//	}
 	@Override
 	public String toString() {
-		return "Ten Phim: " + tenPhim + ", The loai: " + theloai + ", Director: " + director + "\n" + "ReleaseYear: "
-				+ releaseYear + ", Duration: " + duration + ", Trang thai: " + trangthai + "Lich Chieu: " + lichChieu;
+	    return String.format(
+	        "ID: %s | Tên: %s | Thể loại: %s | Đạo diễn: %s | Năm: %d | Thời lượng: %d phút | Trạng thái: %s | %s",
+	        id, tenPhim, theloai, director, releaseYear, duration, trangthai,
+	        (lichChieu != null ? lichChieu.toString() : "Chưa có lịch chiếu")
+	    );
+	}
+
+
+	
+	public String getId() {
+		return id;
+	}
+	public void setId(String id) {
+		this.id = id;
 	}
 	public String getTenPhim() {
 		return tenPhim;
