@@ -19,7 +19,6 @@ public class Phim {
 	
 	
 	public Phim(String id, String tenPhim, String theloai, String director, int releaseYear, int duration) {
-	public Phim(String id, String tenPhim, String theloai, String director, int releaseYear, int duration, String trangthai, LichChieu lichChieu) {
 		super();
 		this.id = id;
 		this.tenPhim = tenPhim;
@@ -48,14 +47,6 @@ public class Phim {
 //	        "ID: %s | Tên: %s | Thể loại: %s | Đạo diễn: %s | Năm: %d | Thời lượng: %d phút | Trạng thái: %s | %s",
 //	        id, tenPhim, theloai, director, releaseYear, duration, trangthai, lichChieu.toString()
 //	    );
-		this.trangthai = trangthai;
-		this.observers = new ArrayList<>();
-		this.lichChieu = lichChieu;
-	}
-	//	@Override
-//	public String toString() {
-//		return "ID: " + id +", Ten Phim: " + tenPhim + ", The loai: " + theloai + ", Director: " + director + "\n" + "ReleaseYear: "
-//				+ releaseYear + ", Duration: " + duration + ", Trang thai: " + trangthai + "Lich Chieu: " + lichChieu;
 //	}
 	@Override
 	public String toString() {
@@ -66,10 +57,6 @@ public class Phim {
 	    );
 	}
 
-
-	        id, tenPhim, theloai, director, releaseYear, duration, trangthai, lichChieu.toString()
-	    );
-	}
 
 	
 	public String getId() {

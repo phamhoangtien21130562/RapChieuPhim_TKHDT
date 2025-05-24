@@ -15,24 +15,24 @@ public class QuanLyPhimController {
         this.qlpmodel = qlpmodel;
         this.view = view;
 
-        // Khởi tạo DanhSachPhimView và đăng ký làm observer
+        // Kh?i t?o DanhSachPhimView v� ??ng k� l�m observer
         danhSachView = new DanhSachPhimView();
         qlpmodel.dangKyObserver(danhSachView);
         danhSachView.setVisible(true);
 
-        // Đăng ký observer cho QuanLyPhimView 
+        // ??ng k� observer cho QuanLyPhimView 
         qlpmodel.dangKyObserver(view);
 
-        // Khởi tạo dữ liệu mẫu
+        // Kh?i t?o d? li?u m?u
         qlpmodel.themPhimMau(qlpmodel);
 
-        // Thêm sự kiện
+        // Th�m s? ki?n
         view.addThemListener(e -> themPhimMoi());
         view.addXoaTheoIdListener(e -> xoaPhimTheoId());
     }
 
     private void themPhimMoi() {
-        // Lấy dữ liệu từ view
+        // L?y d? li?u t? view
         String id = view.getId();
         String tenPhim = view.getTenPhim();
         String theLoai = view.getTheLoai();
@@ -47,18 +47,9 @@ public class QuanLyPhimController {
         qlpmodel.themPhim(p);
     }
 
-
-        Phim p = new Phim(
-            view.getId(), view.getTenPhim(), view.getTheLoai(),
-            view.getDaoDien(), view.getNamSX(), view.getThoiLuong()
-        );
-        qlpmodel.themPhim(p);
-    }
-
     private void xoaPhimTheoId() {
         String id = view.getId();
         qlpmodel.xoaPhimTheoId(id);
     }
 
 }
-
