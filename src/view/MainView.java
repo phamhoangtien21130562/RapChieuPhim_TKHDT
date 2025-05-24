@@ -22,6 +22,7 @@ import javax.swing.table.DefaultTableModel;
 
 import controller.DSPhimController;
 import controller.MainController;
+import controller.PaymentController;
 import model.AdultTicket;
 import model.BasicTicket;
 import model.CaramelCorn;
@@ -69,6 +70,11 @@ public class MainView extends JFrame {
 	private JScrollPane scroll;
 	private int stt;
 //	private Ticket ticket = new AdultTicket();
+	
+	
+	//phuoc
+	private PaymentController paymentController;
+	
 
 	public MainView() {
 		setTitle("Hệ thống đặt vé phim");
@@ -289,6 +295,7 @@ public class MainView extends JFrame {
 						
 						int giaVe =0;
 						if(rd_adult.isSelected()) {
+							
 					      giaVe = (int) new AdultTicket().price();
 						}else {
 							if(rd_student_OldPerson.isSelected()) {
@@ -343,6 +350,81 @@ public class MainView extends JFrame {
 				panel_button2.setLayout(new FlowLayout(FlowLayout.RIGHT));
 				panel_button2.add(button_back);
 				panel_button2.add(button_continue);
+				
+				
+				//phuoc  them thong tin 
+				button_continue.addActionListener(new ActionListener() {
+				    @Override
+				    public void actionPerformed(ActionEvent e) {
+				        // Get thông tin từ UI hiện tại
+				        String movieName = lable_name.getText().replace("Tên phim: ", "");
+				        String room = label_room.getText().replace("Phòng: ", "");
+				        String seats = lable_seat.getText().replace("Ghế: ", "");
+				        
+				        // Determine ticket type
+				        String ticketType = "";
+				        if (rd_adult.isSelected()) {
+				            ticketType = "Người lớn";
+				        } else if (rd_student_OldPerson.isSelected()) {
+				            ticketType = "Học sinh - Người cao tuổi";
+				        }
+				        
+				        // Get combo details từ table
+				        StringBuilder comboDetails = new StringBuilder();
+				        for (int i = 0; i < model.getRowCount(); i++) {
+				            String productName = (String) model.getValueAt(i, 1);
+				            int price = (Integer) model.getValueAt(i, 2);
+				            comboDetails.append(productName).append(" - ").append(price).append(" VNĐ\n");
+				        }
+				        
+				        // Get total amount từ label
+				        String totalText = lable_rice.getText().replace("Tổng đơn hàng: ", "").replace(" đồng", "");
+				        double totalAmount = 0;
+				        try {
+				            totalAmount = Double.parseDouble(totalText);
+				        } catch (NumberFormatException ex) {
+				            totalAmount = 0;
+				        }
+				        
+				        // Set default data nếu chưa có
+				        if (movieName.isEmpty() || movieName.equals("Tên phim: ")) {
+				            movieName = "Avengers: Endgame"; // Default movie
+				            lable_name.setText("Tên phim: " + movieName);
+				        }
+				        
+				        if (seats.isEmpty() || seats.equals("Ghế: ")) {
+				            seats = "A1, A2"; // Default seats if none selected
+				            lable_seat.setText("Ghế: " + seats);
+				        }
+				        
+				        if (ticketType.isEmpty()) {
+				            ticketType = "Người lớn"; // Default ticket type
+				            rd_adult.setSelected(true);
+				        }
+				        
+				        if (room.isEmpty() || room.equals("Phòng: ")) {
+				            room = "Phòng 1"; // Default room
+				            label_room.setText(room);
+				        }
+				        
+				        // Nếu chưa có combo nào, tính lại tổng tiền chỉ với vé
+				        if (totalAmount == 0) {
+				            int ticketPrice = ticketType.equals("Người lớn") ? 60000 : 45000;
+				            String[] seatArray = seats.split(",");
+				            totalAmount = ticketPrice * seatArray.length;
+				            lable_rice.setText("Tổng đơn hàng: " + (int)totalAmount + " đồng");
+				        }
+				        
+				        // Tạo PaymentController và chuyển sang màn hình thanh toán
+				        paymentController = new PaymentController(
+				            movieName, room, seats, ticketType, 
+				            comboDetails.toString(), totalAmount
+				        );
+				        
+				        // Đóng cửa sổ hiện tại
+				        dispose();
+				    }
+				});
 				panel_rice_button.add(panel_button2,BorderLayout.EAST);
 				
 				panel_card = new JPanel();
@@ -372,6 +454,13 @@ public class MainView extends JFrame {
 			
 				
 				getContentPane().add(card_common);
+				
+				//tạo dữ liệu mẫu phước
+//				lable_name.setText("Tên phim: Avengers: Endgame");
+//				label_room.setText("Phòng: 1");
+//				lable_seat.setText("Ghế: A1, A2");
+//				rd_adult.setSelected(true);
+//				lable_rice.setText("Tổng đơn hàng: 120000 đồng");
 				setVisible(true);
 
 		setJMenuBar(menuBar);
@@ -418,6 +507,60 @@ public class MainView extends JFrame {
 	public JMenuItem getLoginMenuItem() {
 		return loginMenuItem;
 	}
+	
+	//phuoc
+	// Getter và setter methods cho PaymentController
+    public JLabel getMovieNameLabel() { return lable_name; }
+    public JLabel getRoomLabel() { return label_room; }
+    public JLabel getSeatLabel() { return lable_seat; }
+    public JLabel getTotalLabel() { return lable_rice; }
+    public JRadioButton getAdultRadio() { return rd_adult; }
+    public JRadioButton getStudentRadio() { return rd_student_OldPerson; }
+    public DefaultTableModel getComboTableModel() { return model; }
+    
+    // Method để restore data
+    public void restoreData(String movieName, String room, String seats, 
+                           String ticketType, String comboDetails, double totalAmount) {
+        lable_name.setText("Tên phim: " + movieName);
+        label_room.setText("Phòng: " + room);
+        lable_seat.setText("Ghế: " + seats);
+        lable_rice.setText("Tổng đơn hàng: " + (int)totalAmount + " đồng");
+        
+        if (ticketType.equals("Người lớn")) {
+            rd_adult.setSelected(true);
+        } else {
+            rd_student_OldPerson.setSelected(true);
+        }
+        
+        // Clear và restore combo table
+        model.setRowCount(0);
+        if (!comboDetails.trim().isEmpty()) {
+            String[] combos = comboDetails.split("\n");
+            int stt = 0;
+            for (String combo : combos) {
+                if (!combo.trim().isEmpty()) {
+                    String[] parts = combo.split(" - ");
+                    if (parts.length == 2) {
+                        String productName = parts[0];
+                        String priceStr = parts[1].replace(" VNĐ", "");
+                        try {
+                            int price = Integer.parseInt(priceStr);
+                            model.addRow(new Object[]{++stt, productName, price});
+                        } catch (NumberFormatException ex) {
+                            // Ignore invalid price
+                        }
+                    }
+                }
+            }
+        }
+    }
+    
+    // Method để chuyển đến màn hình combo
+    public void showComboScreen() {
+        java.awt.CardLayout cardLayout = (java.awt.CardLayout) card_common.getLayout();
+        cardLayout.show(card_common, "Tiếp tục");
+    }
+    
 	private class handleSeat implements ActionListener{
 
 		@Override
