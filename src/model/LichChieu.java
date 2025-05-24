@@ -13,10 +13,15 @@ public class LichChieu {
 		this.ngayChieu = ngayChieu;
 		this.phongChieu = phongChieu;
 	}
-	@Override
-	public String toString() {
-		return "Ngay chieu: " + ngayChieu + ", phong chieu: " + phongChieu;
-	}
+	 @Override
+	    public String toString() {
+	        return "Ngày chiếu: " + ngayChieu;
+	    }
+	
+//	@Override
+//	public String toString() {
+//		return "Ngay chieu: " + ngayChieu + ", phong chieu: " + phongChieu;
+//	}
 	public String getNgayChieu() {
 		return ngayChieu;
 	}

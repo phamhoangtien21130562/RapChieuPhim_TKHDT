@@ -9,9 +9,10 @@ import model.Observer;
 import model.Phim;
 
 public class QuanLyPhimView extends JFrame implements Observer {
-    private JTextField txtId, txtTenPhim, txtTheLoai, txtDaoDien, txtNamSX, txtThoiLuong;
+    private JTextField txtId, txtTenPhim, txtTheLoai, txtDaoDien, txtNamSX, txtThoiLuong, txtLichChieu, txtTrangThai;
     private JButton btnThem, btnXoaTheoId;
     private JTextArea textArea;
+
 
     public QuanLyPhimView() {
         setTitle("Quản Lý Phim");
@@ -20,7 +21,7 @@ public class QuanLyPhimView extends JFrame implements Observer {
         setLocationRelativeTo(null);
 
         // Panel nhập liệu phim
-        JPanel inputPanel = new JPanel(new GridLayout(6, 2, 5, 5));
+        JPanel inputPanel = new JPanel(new GridLayout(8, 2, 5, 5));
         inputPanel.add(new JLabel("ID:"));
         txtId = new JTextField();
         inputPanel.add(txtId);
@@ -44,6 +45,15 @@ public class QuanLyPhimView extends JFrame implements Observer {
         inputPanel.add(new JLabel("Thời Lượng:"));
         txtThoiLuong = new JTextField();
         inputPanel.add(txtThoiLuong);
+        
+        inputPanel.add(new JLabel("Lịch Chiếu:"));
+        txtLichChieu = new JTextField();
+        inputPanel.add(txtLichChieu);
+
+        inputPanel.add(new JLabel("Trạng Thái:"));
+        txtTrangThai = new JTextField();
+        inputPanel.add(txtTrangThai);
+
 
         // Panel nút thêm phim
         JPanel btnThemPanel = new JPanel();
@@ -80,6 +90,14 @@ public class QuanLyPhimView extends JFrame implements Observer {
     public String getDaoDien() { return txtDaoDien.getText().trim(); }
     public int getNamSX() { return Integer.parseInt(txtNamSX.getText().trim()); }
     public int getThoiLuong() { return Integer.parseInt(txtThoiLuong.getText().trim()); }
+    public String getLichChieu() {
+        return txtLichChieu.getText().trim();
+    }
+
+    public String getTrangThai() {
+        return txtTrangThai.getText().trim();
+    }
+
 
     // Lấy ID để xóa phim
     private JTextField txtIdXoa;

@@ -16,6 +16,19 @@ public class Phim {
 	private Phim() {
 		super();
 	}
+	
+	
+	public Phim(String id, String tenPhim, String theloai, String director, int releaseYear, int duration) {
+		super();
+		this.id = id;
+		this.tenPhim = tenPhim;
+		this.theloai = theloai;
+		this.director = director;
+		this.releaseYear = releaseYear;
+		this.duration = duration;
+	}
+
+
 	public Phim(String id, String tenPhim, String theloai, String director, int releaseYear, int duration, String trangthai, LichChieu lichChieu) {
 		super();
 		this.id = id;
@@ -28,18 +41,22 @@ public class Phim {
 		this.observers = new ArrayList<>();
 		this.lichChieu = lichChieu;
 	}
-	//	@Override
+//	@Override
 //	public String toString() {
-//		return "ID: " + id +", Ten Phim: " + tenPhim + ", The loai: " + theloai + ", Director: " + director + "\n" + "ReleaseYear: "
-//				+ releaseYear + ", Duration: " + duration + ", Trang thai: " + trangthai + "Lich Chieu: " + lichChieu;
+//	    return String.format(
+//	        "ID: %s | Tên: %s | Thể loại: %s | Đạo diễn: %s | Năm: %d | Thời lượng: %d phút | Trạng thái: %s | %s",
+//	        id, tenPhim, theloai, director, releaseYear, duration, trangthai, lichChieu.toString()
+//	    );
 //	}
 	@Override
 	public String toString() {
 	    return String.format(
 	        "ID: %s | Tên: %s | Thể loại: %s | Đạo diễn: %s | Năm: %d | Thời lượng: %d phút | Trạng thái: %s | %s",
-	        id, tenPhim, theloai, director, releaseYear, duration, trangthai, lichChieu.toString()
+	        id, tenPhim, theloai, director, releaseYear, duration, trangthai,
+	        (lichChieu != null ? lichChieu.toString() : "Chưa có lịch chiếu")
 	    );
 	}
+
 
 	
 	public String getId() {

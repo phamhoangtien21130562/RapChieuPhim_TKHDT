@@ -40,6 +40,7 @@ public class MainView extends JFrame {
 	private JMenuItem loginMenuItem;
 	
 	//Truong
+//	 private final JMenuItem menuDanhSachPhim = new JMenuItem("Đặt vé");
 //	private JTable tablee;
 //	private DefaultTableModel tableModel;
 //	private JButton button_cont;
@@ -87,6 +88,7 @@ public class MainView extends JFrame {
 		JMenu menu = new JMenu("Menu");
 //		manageMoviesMenuItem = new JMenuItem("Quản lý phim");
 		bookTicketsMenuItem = new JMenuItem("Đặt vé");
+//		menu.add(menuDanhSachPhim);
 	//	listfilmMenuItem = new JMenuItem("Danh sách phim");
 		viewHistoryMenuItem = new JMenuItem("Xem lịch sử đặt vé");
 		loginMenuItem = new JMenuItem("Đăng nhập");
@@ -495,6 +497,9 @@ public class MainView extends JFrame {
 	public JMenuItem getLoginMenuItem() {
 		return loginMenuItem;
 	}
+//	   public JMenuItem getMenuDanhSachPhim() {
+//	        return menuDanhSachPhim;
+//	    }
 	
 	//phuoc
 	// Getter và setter methods cho PaymentController

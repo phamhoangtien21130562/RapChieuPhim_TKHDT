@@ -1,5 +1,6 @@
 package controller;
 
+import model.LichChieu;
 import model.Phim;
 import model.QuanLyPhim;
 import view.DanhSachPhimView;
@@ -14,27 +15,35 @@ public class QuanLyPhimController {
         this.qlpmodel = qlpmodel;
         this.view = view;
 
-        // Khởi tạo DanhSachPhimView và đăng ký làm observer
+        // Kh?i t?o DanhSachPhimView v� ??ng k� l�m observer
         danhSachView = new DanhSachPhimView();
         qlpmodel.dangKyObserver(danhSachView);
         danhSachView.setVisible(true);
 
-        // Đăng ký observer cho QuanLyPhimView 
+        // ??ng k� observer cho QuanLyPhimView 
         qlpmodel.dangKyObserver(view);
 
-        // Khởi tạo dữ liệu mẫu
+        // Kh?i t?o d? li?u m?u
         qlpmodel.themPhimMau(qlpmodel);
 
-        // Thêm sự kiện
+        // Th�m s? ki?n
         view.addThemListener(e -> themPhimMoi());
         view.addXoaTheoIdListener(e -> xoaPhimTheoId());
     }
 
     private void themPhimMoi() {
-        Phim p = new Phim(
-            view.getId(), view.getTenPhim(), view.getTheLoai(),
-            view.getDaoDien(), view.getNamSX(), view.getThoiLuong()
-        );
+        // L?y d? li?u t? view
+        String id = view.getId();
+        String tenPhim = view.getTenPhim();
+        String theLoai = view.getTheLoai();
+        String daoDien = view.getDaoDien();
+        int namSX = view.getNamSX();
+        int thoiLuong = view.getThoiLuong();
+        String trangThai = view.getTrangThai();
+        String lichChieuText = view.getLichChieu();
+        Phim p = new Phim(id, tenPhim, theLoai, daoDien, namSX, thoiLuong);
+        p.setTrangthai(trangThai);
+        p.setLichChieu(new LichChieu(lichChieuText));
         qlpmodel.themPhim(p);
     }
 
@@ -44,4 +53,3 @@ public class QuanLyPhimController {
     }
 
 }
-
