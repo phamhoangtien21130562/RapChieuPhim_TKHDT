@@ -20,7 +20,7 @@ import java.util.Set;
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 
-import controller.DSPhimController;
+//import controller.DSPhimController;
 import controller.MainController;
 import controller.PaymentController;
 import model.AdultTicket;
@@ -34,18 +34,17 @@ import model.Softdrink;
 import model.Ticket;
 
 public class MainView extends JFrame {
-	private JMenuItem manageMoviesMenuItem;
 	private JMenuItem bookTicketsMenuItem;
 	private JMenuItem listfilmMenuItem;
 	private JMenuItem viewHistoryMenuItem;
 	private JMenuItem loginMenuItem;
 	
 	//Truong
-	private JTable tablee;
-	private DefaultTableModel tableModel;
-	private JButton button_cont;
-	private JPanel pane_DSP, panel_but, panel_chung;
-	private JButton button_cancel;
+//	private JTable tablee;
+//	private DefaultTableModel tableModel;
+//	private JButton button_cont;
+//	private JPanel pane_DSP, panel_but, panel_chung;
+//	private JButton button_cancel;
 	
 	//Khanh
     private final int rows = 8; // a - h (theo chiều dọc)
@@ -86,13 +85,13 @@ public class MainView extends JFrame {
 		JMenuBar menuBar = new JMenuBar();
 
 		JMenu menu = new JMenu("Menu");
-		manageMoviesMenuItem = new JMenuItem("Quản lý phim");
+//		manageMoviesMenuItem = new JMenuItem("Quản lý phim");
 		bookTicketsMenuItem = new JMenuItem("Đặt vé");
 	//	listfilmMenuItem = new JMenuItem("Danh sách phim");
 		viewHistoryMenuItem = new JMenuItem("Xem lịch sử đặt vé");
 		loginMenuItem = new JMenuItem("Đăng nhập");
 
-		menu.add(manageMoviesMenuItem);
+//		menu.add(manageMoviesMenuItem);
 		menu.add(bookTicketsMenuItem);
 	//	menu.add(listfilmMenuItem);
 		menu.add(viewHistoryMenuItem);
@@ -104,37 +103,37 @@ public class MainView extends JFrame {
 		
 		
 		// Danh sach phim-Truong
-			pane_DSP = new JPanel();
-			pane_DSP.setLayout(new BorderLayout());
-		   String[] columnNames = {"Tên phim", "Thể loại","Đạo diễn","Năm SX", "Thời lượng phim", "Trạng thái"};
-	        tableModel = new DefaultTableModel(columnNames, 0);
-	        table = new JTable(tableModel);
-	        table.addMouseListener(new MouseAdapter() {
-	        	@Override
-	        	public void mouseClicked(MouseEvent e) {
-	        		int selecteRow = table.getSelectedRow();
-	        		if(selecteRow!=-1) {
-	        			String name = (String) model.getValueAt(selecteRow, 0).toString();
-	        			lable_name.setText("Tên phim: "+name);
-	        		}
-	        	}
-			});
+//			pane_DSP = new JPanel();
+//			pane_DSP.setLayout(new BorderLayout());
+//		   String[] columnNames = {"Tên phim", "Thể loại","Đạo diễn","Năm SX", "Thời lượng phim", "Trạng thái"};
+//	        tableModel = new DefaultTableModel(columnNames, 0);
+//	        table = new JTable(tableModel);
+//	        table.addMouseListener(new MouseAdapter() {
+//	        	@Override
+//	        	public void mouseClicked(MouseEvent e) {
+//	        		int selecteRow = table.getSelectedRow();
+//	        		if(selecteRow!=-1) {
+//	        			String name = (String) model.getValueAt(selecteRow, 0).toString();
+//	        			lable_name.setText("Tên phim: "+name);
+//	        		}
+//	        	}
+//			});
 
-	        JScrollPane scrollPane = new JScrollPane(table);
-	        
-	        panel_but = new JPanel();
-	        panel_but.setLayout(new BorderLayout());
-	        panel_chung = new JPanel();
-	        panel_chung.setLayout(new BorderLayout());
-	        panel_chung.add(scrollPane, BorderLayout.CENTER);
-	        button_cont = new JButton("Chọn xong");
-	        button_cancel = new JButton("Hủy");
-	        panel_but.add(button_cancel, BorderLayout.WEST);
-	        panel_but.add(button_cont, BorderLayout.EAST);
-	        
-	        
-	        pane_DSP.add(panel_chung,BorderLayout.CENTER);
-	        pane_DSP.add(panel_but, BorderLayout.SOUTH);
+//	        JScrollPane scrollPane = new JScrollPane(table);
+//	        
+//	        panel_but = new JPanel();
+//	        panel_but.setLayout(new BorderLayout());
+//	        panel_chung = new JPanel();
+//	        panel_chung.setLayout(new BorderLayout());
+//	        panel_chung.add(scrollPane, BorderLayout.CENTER);
+//	        button_cont = new JButton("Chọn xong");
+//	        button_cancel = new JButton("Hủy");
+//	        panel_but.add(button_cancel, BorderLayout.WEST);
+//	        panel_but.add(button_cont, BorderLayout.EAST);
+//	        
+//	        
+//	        pane_DSP.add(panel_chung,BorderLayout.CENTER);
+//	        pane_DSP.add(panel_but, BorderLayout.SOUTH);
 	        
 	      
 	        
@@ -442,15 +441,15 @@ public class MainView extends JFrame {
 				CardLayout card = new CardLayout();
 				card_common = new JPanel(card);
 				card_common.add("Menu",card_home);
-				card_common.add("Đặt vé", pane_DSP);
+//				card_common.add("Đặt vé", pane_DSP);
 				card_common.add("Chọn xong",panel_ghe);
 				card_common.add("Tiếp tục", panel_card);
 				bookTicketsMenuItem.addActionListener(e-> card.show(card_common	, "Đặt vé"));
-				button_cont.addActionListener(e->card.show(card_common, "Chọn xong"));
+//				button_cont.addActionListener(e->card.show(card_common, "Chọn xong"));
 				button_qlai.addActionListener(e-> card.show(card_common, "Đặt vé"));
 				button_conti.addActionListener(e->card.show(card_common, "Tiếp tục"));
 				button_back.addActionListener(e-> card.show(card_common, "Chọn xong"));
-				button_cancel.addActionListener(e-> card.show(card_common, "Menu"));
+//				button_cancel.addActionListener(e-> card.show(card_common, "Menu"));
 			
 				
 				getContentPane().add(card_common);
@@ -467,17 +466,6 @@ public class MainView extends JFrame {
 
 
 	}
-	 public void themPhimVaoTable(Phim phim) {
-	        Object[] rowData = {
-	            phim.getTenPhim(),
-	            phim.getTheloai(),
-	            phim.getDirector(),
-	            phim.getReleaseYear(),
-	            phim.getDuration() + " phút",
-	            phim.getTrangthai(),
-	        };
-	        tableModel.addRow(rowData);
-	    }
 	 private JLabel createLegendLabel(String text, Color color) {
 	        JLabel label = new JLabel(text);
 	        label.setOpaque(true);
@@ -488,17 +476,17 @@ public class MainView extends JFrame {
 	        return label;
 	    }
 
-	public JMenuItem getManageMoviesMenuItem() {
-		return manageMoviesMenuItem;
-	}
-
+//	public JMenuItem getManageMoviesMenuItem() {
+//		return manageMoviesMenuItem;
+//	}
+//
 	public JMenuItem getBookTicketsMenuItem() {
 		return bookTicketsMenuItem;
 	}
-
-	public JMenuItem getListfilmMenuItem() {
-		return listfilmMenuItem;
-	}
+//
+//	public JMenuItem getListfilmMenuItem() {
+//		return listfilmMenuItem;
+//	}
 
 	public JMenuItem getViewHistoryMenuItem() {
 		return viewHistoryMenuItem;

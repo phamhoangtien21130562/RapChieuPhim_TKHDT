@@ -3,61 +3,76 @@ package controller;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-import view.DSPhimView;
+import model.QuanLyPhim;
+import view.DanhSachPhimView;
 import view.HistoryView;
 import view.MainView;
+import view.PageAdmin;
 import view.QuanLyPhimView;
 import view.ViewDangNhap;
 
 public class MainController {
-    private MainView mainView;
+
+    private QuanLyPhim qlpmodel;
     private QuanLyPhimView quanLyPhimView;
+    private DanhSachPhimView danhSachPhimView;
 
-    public MainController(MainView view) {
-        this.mainView = view;
+    private MainView mainView;
+    private PageAdmin pageAdmin;
 
-        mainView.getManageMoviesMenuItem().addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                showQuanLyPhim();
-            }
-        });
-//
-//        mainView.getListfilmMenuItem().addActionListener(new ActionListener() {
-//            @Override
-//            public void actionPerformed(ActionEvent e) {
-//                DSPhimView view = new DSPhimView();
-//                view.setVisible(true);
-               new DSPhimController(view);
-//            }
-//        });
+    // Constructor dùng khi chạy từ MainView (menu chính)
+    public MainController(MainView mainView, PageAdmin pageAdmin) {
+        this.mainView = mainView;
+        this.pageAdmin = pageAdmin;
+        this.qlpmodel = new QuanLyPhim();
 
-        mainView.getViewHistoryMenuItem().addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                new HistoryView().setVisible(true);
-            }
-        });
+        qlpmodel.themPhimMau(qlpmodel);
 
-        mainView.getLoginMenuItem().addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                new ViewDangNhap().setVisible(true);
-            }
-        });
-//        mainView.getBookTicketsMenuItem().addActionListener(new ActionListener() {
-//			
-//			@Override
-//			public void actionPerformed(ActionEvent e) {
-//				// TODO Auto-generated method stub
-//				new ViewDecorator().setVisible(true);
-//			}
-//		});
+        initMainMenu();
+        initAdminMenu();
     }
 
-    private void showQuanLyPhim() {
-        quanLyPhimView = new QuanLyPhimView();
+    // Chỉ gọi khi dùng PageAdmin độc lập
+    public MainController(PageAdmin pageAdmin) {
+        this(null, pageAdmin);
+    }
+
+    // Chỉ gọi khi dùng MainView độc lập
+    public MainController(MainView mainView) {
+        this(mainView, new PageAdmin());
+    }
+
+    // Các menu của MainView (menu tổng)
+    private void initMainMenu() {
+        if (mainView == null) return;
+
+        mainView.getViewHistoryMenuItem().addActionListener(e -> new HistoryView().setVisible(true));
+        mainView.getLoginMenuItem().addActionListener(e -> new ViewDangNhap().setVisible(true));
+        mainView.getBookTicketsMenuItem().addActionListener(e -> moDanhSachPhim());
+    }
+
+    // Các menu của PageAdmin (admin panel)
+    private void initAdminMenu() {
+        if (pageAdmin == null) return;
+
+        pageAdmin.getMenuQuanLyPhim().addActionListener(e -> moQuanLyPhim());
+//        pageAdmin.getMenuDanhSachPhim().addActionListener(e -> moDanhSachPhim());
+    }
+
+    private void moQuanLyPhim() {
+        if (quanLyPhimView == null) {
+            quanLyPhimView = new QuanLyPhimView();
+            new QuanLyPhimController(qlpmodel, quanLyPhimView);
+        }
         quanLyPhimView.setVisible(true);
-        new QuanLyPhimController(quanLyPhimView);
+    }
+
+    private void moDanhSachPhim() {
+        if (danhSachPhimView == null) {
+            danhSachPhimView = new DanhSachPhimView();
+            qlpmodel.dangKyObserver(danhSachPhimView);
+        }
+        danhSachPhimView.setVisible(true);
     }
 }
+
