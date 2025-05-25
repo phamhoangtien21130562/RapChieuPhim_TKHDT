@@ -1,6 +1,6 @@
 package model;
 
-public class PaymentContext {
+public class PaymentProcessor {
     private PaymentStrategy paymentStrategy;
     
     public void setPaymentStrategy(PaymentStrategy strategy) {
