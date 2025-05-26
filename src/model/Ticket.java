@@ -1,19 +1,23 @@
 package model;
 
+import java.util.Random;
+import java.util.UUID;
+
 import view.MainView;
 
 public abstract class Ticket {
-	protected String ticketID;
+	public int ticketID;
 	protected String typeOfTicket;
-	protected Phim phim = new Phim(ticketID, typeOfTicket, ticketID, ticketID, 0, 0);
 
 	public Ticket() {
 		super();
 		typeOfTicket="";
+		Random ran = new Random();
+		ticketID = 100000+ran.nextInt(900000);
 		
 	}
 	public String displayInfor() {
-		return "Tên phim: "+phim.getTenPhim()+"\t\t"+ "Hạng vé: "+ typeOfTicket;
+		return "Mã vé: "+ticketID+"\t"+ "Hạng vé: "+ typeOfTicket;
 	}
 	public abstract double price();
 }

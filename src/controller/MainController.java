@@ -69,7 +69,7 @@ public class MainController {
 
     private void moDanhSachPhim() {
         if (danhSachPhimView == null) {
-            danhSachPhimView = new DanhSachPhimView();
+            danhSachPhimView = new DanhSachPhimView(mainView);
             qlpmodel.dangKyObserver(danhSachPhimView);
         }
         danhSachPhimView.setVisible(true);

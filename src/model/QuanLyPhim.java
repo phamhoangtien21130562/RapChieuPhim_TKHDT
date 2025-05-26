@@ -7,9 +7,16 @@ import java.util.List;
 public class QuanLyPhim implements Subject {
     private List<Phim> danhSach = new ArrayList<>();
     private List<Observer> observers = new ArrayList<>();
+ 
 
     public void themPhim(Phim p) {
         danhSach.add(p);
+//        for (Observer obs : observers) {
+//            obs.capNhatDanhSachPhim(new ArrayList<>(danhSach));
+//        }
+//        for (Observer obs : customerObservers) {
+//            obs.capNhatDanhSachPhim(new ArrayList<>(danhSach));
+//        }
         thongBaoCapNhat("Đã thêm phim: " + p.getTenPhim());
     }
 
@@ -31,6 +38,7 @@ public class QuanLyPhim implements Subject {
     public void dangKyObserver(Observer obs) {
         observers.add(obs);
         obs.capNhatDanhSachPhim(new ArrayList<>(danhSach));
+//        obs.capNhat("Danh sách phim hiện tại", new ArrayList<>(danhSach));
     }
 
     @Override
@@ -41,12 +49,17 @@ public class QuanLyPhim implements Subject {
     @Override
     public void thongBaoCapNhat(String thongbao) {
         for (Observer obs : observers) {
+//        	obs.capNhat(thongbao, new ArrayList<>(danhSach));
             obs.capNhatDanhSachPhim(new ArrayList<>(danhSach));
         }
     }
     public List<Phim> getDanhSachPhim() {
-        return danhSach;
+        return new ArrayList<>(danhSach);
     }
+    
+//    public List<Phim> getDanhSachPhim() {
+//        return danhSach;
+//    }
     public void themPhimMau(QuanLyPhim model) {
 //    	PhongChieu phong1 = new PhongChieu("Phòng 1");
 //        PhongChieu phong2 = new PhongChieu("Phòng 2");

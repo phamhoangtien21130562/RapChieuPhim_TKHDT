@@ -41,6 +41,7 @@ public class MainView extends JFrame {
 	private JMenuItem viewHistoryMenuItem;
 	private JMenuItem loginMenuItem;
 	
+	
 	//Truong
 	private JTable tablee;
 	private DefaultTableModel tableModel;
@@ -76,7 +77,7 @@ public class MainView extends JFrame {
     //An
 	private JPanel panel_infor, panel_combo, panel_rice_button, panel_center, panel_button2, panel_button1_ ,panel_card, card_common,
 	card_home, card_menu_dsp, card_menu_;
-	private JLabel lable_name, lable_performance, label_room, lable_seat, lable_rice;
+	public JLabel lable_name, lable_performance, label_room, lable_seat, lable_rice;
 	private JButton button_continue, button_back, button_remove, button_complete;
 	private JRadioButton rd_adult, rd_student_OldPerson;
 	private ButtonGroup group;
@@ -89,21 +90,22 @@ public class MainView extends JFrame {
 
 	public MainView() {
 		setTitle("Hệ thống đặt vé phim");
-		setSize(600, 400);
+		setSize(700, 450);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setLocationRelativeTo(null);
+		
 
 		// Tạo menu bar
 		JMenuBar menuBar = new JMenuBar();
 
 		JMenu menu = new JMenu("Menu");
-		manageMoviesMenuItem = new JMenuItem("Quản lý phim");
+//		manageMoviesMenuItem = new JMenuItem("Quản lý phim");
 		bookTicketsMenuItem = new JMenuItem("Đặt vé");
 	//	listfilmMenuItem = new JMenuItem("Danh sách phim");
 		viewHistoryMenuItem = new JMenuItem("Xem lịch sử đặt vé");
 		loginMenuItem = new JMenuItem("Đăng nhập");
 
-		menu.add(manageMoviesMenuItem);
+//		menu.add(manageMoviesMenuItem);
 		menu.add(bookTicketsMenuItem);
 	//	menu.add(listfilmMenuItem);
 		menu.add(viewHistoryMenuItem);
@@ -114,38 +116,19 @@ public class MainView extends JFrame {
 		
 		
 		
-		// Danh sach phim-Truong
-			pane_DSP = new JPanel();
-			pane_DSP.setLayout(new BorderLayout());
-		   String[] columnNames = {"Tên phim", "Thể loại","Đạo diễn","Năm SX", "Thời lượng phim", "Trạng thái"};
-	        tableModel = new DefaultTableModel(columnNames, 0);
-	        table = new JTable(tableModel);
-	        table.addMouseListener(new MouseAdapter() {
-	        	@Override
-	        	public void mouseClicked(MouseEvent e) {
-	        		int selecteRow = table.getSelectedRow();
-	        		if(selecteRow!=-1) {
-	        			String name = (String) model.getValueAt(selecteRow, 0).toString();
-	        			lable_name.setText("Tên phim: "+name);
-	        		}
-	        	}
-			});
+		pane_DSP = new JPanel();
+		pane_DSP.setLayout(new BorderLayout());
 
-	        JScrollPane scrollPane = new JScrollPane(table);
-	        
-	        panel_but = new JPanel();
-	        panel_but.setLayout(new BorderLayout());
-	        panel_chung = new JPanel();
-	        panel_chung.setLayout(new BorderLayout());
-	        panel_chung.add(scrollPane, BorderLayout.CENTER);
-	        button_cont = new JButton("Chọn xong");
-	        button_cancel = new JButton("Hủy");
-	        panel_but.add(button_cancel, BorderLayout.WEST);
-	        panel_but.add(button_cont, BorderLayout.EAST);
-	        
-	        
-	        pane_DSP.add(panel_chung,BorderLayout.CENTER);
-	        pane_DSP.add(panel_but, BorderLayout.SOUTH);
+		// Tạo panel chứa 2 nút
+		panel_but = new JPanel(new FlowLayout(FlowLayout.RIGHT, 10, 5));
+		button_cancel = new JButton("Hủy");
+		button_cont = new JButton("Chọn ghế");
+
+		panel_but.add(button_cancel);
+		panel_but.add(button_cont);
+
+		// Thêm panel nút vào panel chính
+		pane_DSP.add(panel_but, BorderLayout.SOUTH);
 	        
 	      
 	        
@@ -233,153 +216,153 @@ public class MainView extends JFrame {
 	        
 	        
 	        //Thong tin ve-An
-				panel_infor = new JPanel();
-				panel_infor.setBorder(BorderFactory.createTitledBorder("Thông tin vé"));
-				panel_infor.setLayout(new GridLayout(3,2));
-				
-				lable_name = new JLabel("Tên phim: ");
-				lable_performance = new JLabel("Suất: ");
-				label_room = new JLabel("Phòng chiếu: ");
-				lable_seat = new JLabel("Ghế: ");
-				
-				panel_infor.add(lable_name);panel_infor.add(label_room);
-				panel_infor.add(lable_performance);panel_infor.add(lable_seat);
-				
-				rd_adult= new JRadioButton("Người lớn");
-				rd_student_OldPerson = new JRadioButton("Hssv-Người cao tuổi");
-				group = new ButtonGroup();
-				group.add(rd_adult);group.add(rd_student_OldPerson);
-				
-				panel_infor.add(rd_adult);
-				panel_infor.add(rd_student_OldPerson);
-				
-				//Thong tin combo
-				panel_center = new JPanel();
-				panel_center.setBorder(BorderFactory.createTitledBorder("Combo"));
-				panel_center.setLayout(new BorderLayout());
-				panel_combo = new JPanel();
-				panel_combo.setLayout(new GridLayout(2,4));
-				
-				cb_corn_regular = new JCheckBox("Bắp thường(40000)");
-				cb_corn_caramel = new JCheckBox("Bắp caramel(45000)");
-				cb_corn_cheses = new JCheckBox("Bắp phô mai(60000)");
-				cb_softdrink = new JCheckBox("Nước ngọt(28000)");
-				
-				// Tạo spinner để nhập số lượng từng combo (0 đến 10)
-				JSpinner spinner_caramel = new JSpinner(new SpinnerNumberModel(0, 0, 10, 1));
-				JSpinner spinner_regular = new JSpinner(new SpinnerNumberModel(0, 0, 10, 1));
-				JSpinner spinner_cheses = new JSpinner(new SpinnerNumberModel(0, 0, 10, 1));
-				JSpinner spinner_softdrink = new JSpinner(new SpinnerNumberModel(0, 0, 10, 1));
+			panel_infor = new JPanel();
+			panel_infor.setBorder(BorderFactory.createTitledBorder("Thông tin vé"));
+			panel_infor.setLayout(new GridLayout(3,2));
+			
+			lable_name = new JLabel("Tên phim: ");
+			lable_performance = new JLabel("Suất: ");
+			label_room = new JLabel("Phòng chiếu: ");
+			lable_seat = new JLabel("Ghế: ");
+			
+			panel_infor.add(lable_name);panel_infor.add(label_room);
+			panel_infor.add(lable_performance);panel_infor.add(lable_seat);
+			
+			rd_adult= new JRadioButton("Người lớn");
+			rd_student_OldPerson = new JRadioButton("Hssv-Người cao tuổi");
+			group = new ButtonGroup();
+			group.add(rd_adult);group.add(rd_student_OldPerson);
+			
+			panel_infor.add(rd_adult);
+			panel_infor.add(rd_student_OldPerson);
+			
+			//Thong tin combo
+			panel_center = new JPanel();
+			panel_center.setBorder(BorderFactory.createTitledBorder("Combo"));
+			panel_center.setLayout(new BorderLayout());
+			panel_combo = new JPanel();
+			panel_combo.setLayout(new GridLayout(2,4));
+			
+			cb_corn_regular = new JCheckBox("Bắp thường(40000)");
+			cb_corn_caramel = new JCheckBox("Bắp caramel(45000)");
+			cb_corn_cheses = new JCheckBox("Bắp phô mai(60000)");
+			cb_softdrink = new JCheckBox("Nước ngọt(28000)");
+			
+			// Tạo spinner để nhập số lượng từng combo (0 đến 10)
+			JSpinner spinner_caramel = new JSpinner(new SpinnerNumberModel(0, 0, 10, 1));
+			JSpinner spinner_regular = new JSpinner(new SpinnerNumberModel(0, 0, 10, 1));
+			JSpinner spinner_cheses = new JSpinner(new SpinnerNumberModel(0, 0, 10, 1));
+			JSpinner spinner_softdrink = new JSpinner(new SpinnerNumberModel(0, 0, 10, 1));
 
-				
-				panel_combo.add(cb_corn_regular);panel_combo.add(spinner_regular);
-				panel_combo.add(cb_softdrink);panel_combo.add(spinner_softdrink);
-				panel_combo.add(cb_corn_caramel);panel_combo.add(spinner_caramel);
-				panel_combo.add(cb_corn_cheses);panel_combo.add(spinner_cheses);
-				
-				model = new DefaultTableModel();
-				model.addColumn("STT");
-				model.addColumn("Tên sản phẩm");
-				model.addColumn("Đơn giá");
-				table = new JTable(model);
-				scroll = new JScrollPane(table);
-				
-				panel_button1_ = new JPanel();
-				button_complete = new JButton("Hoàn thành");
-				button_complete.addActionListener(new ActionListener() {
-					// Tao ra loai ve trung gian de cac decor phủ lên và tách gias vé riêng ra nhằm tránh các vé bị phủ lên = với số lượng vé.
-					@Override
-					public void actionPerformed(ActionEvent e) {
-						// TODO Auto-generated method stub
-						
-						String textSeat = lable_seat.getText();
-						textSeat = textSeat.replace("Ghế: ", "").trim();
-						String[] seatArray = textSeat.split(",");
-						int numTicket = seatArray.length;
-						
-						// Xu ly lay gia ve
-						int price =0;
-						if(rd_adult.isSelected()) {
-							price = (int) new AdultTicket().price();
-						}else {
-							if(rd_student_OldPerson.isSelected()) {
-								price = (int) new HSSV_OldPersonTicket().price();
-							}
+			
+			panel_combo.add(cb_corn_regular);panel_combo.add(spinner_regular);
+			panel_combo.add(cb_softdrink);panel_combo.add(spinner_softdrink);
+			panel_combo.add(cb_corn_caramel);panel_combo.add(spinner_caramel);
+			panel_combo.add(cb_corn_cheses);panel_combo.add(spinner_cheses);
+			
+			model = new DefaultTableModel();
+			model.addColumn("STT");
+			model.addColumn("Tên sản phẩm");
+			model.addColumn("Đơn giá");
+			table = new JTable(model);
+			scroll = new JScrollPane(table);
+			
+			panel_button1_ = new JPanel();
+			button_complete = new JButton("Hoàn thành");
+			button_complete.addActionListener(new ActionListener() {
+				// Tao ra loai ve trung gian de cac decor phủ lên và tách gias vé riêng ra nhằm tránh các vé bị phủ lên = với số lượng vé.
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					// TODO Auto-generated method stub
+					
+					String textSeat = lable_seat.getText();
+					textSeat = textSeat.replace("Ghế: ", "").trim();
+					String[] seatArray = textSeat.split(",");
+					int numTicket = seatArray.length;  
+					
+					// Xu ly lay gia ve
+					int price =0;
+					if(rd_adult.isSelected()) {
+						price = (int) new AdultTicket().price();
+					}else {
+						if(rd_student_OldPerson.isSelected()) {
+							price = (int) new HSSV_OldPersonTicket().price();
 						}
-						int numPriceTicket = price*numTicket;
-			                model.setRowCount(0);
-			                stt = 0;
-			                
-			                //Xu ly chon combo
-			                Ticket ticket = new BasicTicket();
-			                int sl_regular = (int) spinner_regular.getValue();
-			                int sl_caramel = (int) spinner_caramel.getValue();
-			                int sl_cheses = (int) spinner_cheses.getValue();
-			                int sl_softdrink = (int) spinner_softdrink.getValue();
+					}
+					int numPriceTicket = price*numTicket;
+		                model.setRowCount(0);
+		                stt = 0;
+		                
+		                //Xu ly chon combo
+		                Ticket ticket = new BasicTicket();
+		                int sl_regular = (int) spinner_regular.getValue();
+		                int sl_caramel = (int) spinner_caramel.getValue();
+		                int sl_cheses = (int) spinner_cheses.getValue();
+		                int sl_softdrink = (int) spinner_softdrink.getValue();
 
-			                for (int i = 0; i < sl_regular; i++) {
-			                    ticket = new RegularCorn(ticket);
-			                    model.addRow(new Object[]{++stt, "Bắp thường", 40000});
-			                }
+		                for (int i = 0; i < sl_regular; i++) {
+		                    ticket = new RegularCorn(ticket);
+		                    model.addRow(new Object[]{++stt, "Bắp thường", 40000});
+		                }
 
-			                for (int i = 0; i < sl_caramel; i++) {
-			                    ticket = new CaramelCorn(ticket);
-			                    model.addRow(new Object[]{++stt, "Bắp caramel", 45000});
-			                }
+		                for (int i = 0; i < sl_caramel; i++) {
+		                    ticket = new CaramelCorn(ticket);
+		                    model.addRow(new Object[]{++stt, "Bắp caramel", 45000});
+		                }
 
-			                for (int i = 0; i < sl_cheses; i++) {
-			                    ticket = new ChesesCorn(ticket);
-			                    model.addRow(new Object[]{++stt, "Bắp phô mai", 60000});
-			                }
+		                for (int i = 0; i < sl_cheses; i++) {
+		                    ticket = new ChesesCorn(ticket);
+		                    model.addRow(new Object[]{++stt, "Bắp phô mai", 60000});
+		                }
 
-			                for (int i = 0; i < sl_softdrink; i++) {
-			                    ticket = new Softdrink(ticket);
-			                    model.addRow(new Object[]{++stt, "Nước ngọt", 28000});
-			                }
+		                for (int i = 0; i < sl_softdrink; i++) {
+		                    ticket = new Softdrink(ticket);
+		                    model.addRow(new Object[]{++stt, "Nước ngọt", 28000});
+		                }
 
-			                // Tổng tiền: giá vé + combo
-			                int totalCombo = (int) ticket.price();
-			                int totalPrice = numPriceTicket + totalCombo;
-			                lable_rice.setText("Tổng đơn hàng: " + totalPrice + " đồng");
+		                // Tổng tiền: giá vé + combo
+		                int totalCombo = (int) ticket.price();
+		                int totalPrice = numPriceTicket + totalCombo;
+		                lable_rice.setText("Tổng đơn hàng: " + totalPrice + " đồng     "+"Mã vé: "+ticket.ticketID);
 
-			     
-			                spinner_regular.setValue(0);
-			                spinner_caramel.setValue(0);
-			                spinner_cheses.setValue(0);
-			                spinner_softdrink.setValue(0);
-			                cb_corn_caramel.setSelected(false);
-			                cb_corn_cheses.setSelected(false);
-			                cb_corn_regular.setSelected(false);
-			                cb_softdrink.setSelected(false);
-			            }
-			        });
-				panel_button1_.add(button_complete);
-				
-				panel_center.add(panel_combo,BorderLayout.NORTH);
-				panel_center.add(scroll, BorderLayout.CENTER);
-				panel_center.add(panel_button1_,BorderLayout.SOUTH);
-				
-				// Thao tác
-				panel_rice_button = new JPanel();
-				panel_rice_button.setBorder(BorderFactory.createTitledBorder("Thao tác"));
-				panel_rice_button.setLayout(new BorderLayout());
-				
-				lable_rice = new JLabel("Tổng đơn hàng", JLabel.LEFT);
-				button_back = new JButton("Quay lại chọn ghế");
-				button_continue = new JButton("Tiếp tục");
-				
-				panel_rice_button.add(lable_rice, BorderLayout.WEST);
-				panel_button2 = new JPanel();
-				panel_button2.setLayout(new FlowLayout(FlowLayout.RIGHT));
-				panel_button2.add(button_back);
-				panel_button2.add(button_continue);
-				panel_rice_button.add(panel_button2,BorderLayout.EAST);
-				
-				panel_card = new JPanel();
-				panel_card.setLayout(new BorderLayout());
-				panel_card.add(panel_infor,BorderLayout.NORTH);
-				panel_card.add(panel_center,BorderLayout.CENTER);
-				panel_card.add(panel_rice_button,BorderLayout.SOUTH);
+		     
+		                spinner_regular.setValue(0);
+		                spinner_caramel.setValue(0);
+		                spinner_cheses.setValue(0);
+		                spinner_softdrink.setValue(0);
+		                cb_corn_caramel.setSelected(false);
+		                cb_corn_cheses.setSelected(false);
+		                cb_corn_regular.setSelected(false);
+		                cb_softdrink.setSelected(false);
+		            }
+		        });
+			panel_button1_.add(button_complete);
+			
+			panel_center.add(panel_combo,BorderLayout.NORTH);
+			panel_center.add(scroll, BorderLayout.CENTER);
+			panel_center.add(panel_button1_,BorderLayout.SOUTH);
+			
+			// Thao tác
+			panel_rice_button = new JPanel();
+			panel_rice_button.setBorder(BorderFactory.createTitledBorder("Thao tác"));
+			panel_rice_button.setLayout(new BorderLayout());
+			
+			lable_rice = new JLabel("Tổng đơn hàng", JLabel.LEFT);
+			button_back = new JButton("Quay lại chọn ghế");
+			button_continue = new JButton("Tiếp tục");
+			
+			panel_rice_button.add(lable_rice, BorderLayout.WEST);
+			panel_button2 = new JPanel();
+			panel_button2.setLayout(new FlowLayout(FlowLayout.RIGHT));
+			panel_button2.add(button_back);
+			panel_button2.add(button_continue);
+			panel_rice_button.add(panel_button2,BorderLayout.EAST);
+			
+			panel_card = new JPanel();
+			panel_card.setLayout(new BorderLayout());
+			panel_card.add(panel_infor,BorderLayout.NORTH);
+			panel_card.add(panel_center,BorderLayout.CENTER);
+			panel_card.add(panel_rice_button,BorderLayout.SOUTH);
 				
 				// Nội dung chính
 				JLabel welcomeLabel = new JLabel("Chào mừng bạn đến với hệ thống đặt vé phim!", SwingConstants.CENTER);
@@ -429,9 +412,9 @@ public class MainView extends JFrame {
 	        return label;
 	    }
 
-	public JMenuItem getManageMoviesMenuItem() {
-		return manageMoviesMenuItem;
-	}
+//	public JMenuItem getManageMoviesMenuItem() {
+//		return manageMoviesMenuItem;
+//	}
 
 	public JMenuItem getBookTicketsMenuItem() {
 		return bookTicketsMenuItem;
@@ -460,14 +443,31 @@ public class MainView extends JFrame {
 				}
 				String seat =String.join(",", seatList);
 				lable_seat.setText("Ghế: "+seat);
-				Random ran = new Random();
-				int numRoom = ran.nextInt(5)+1;
-				label_room.setText("Phòng: "+numRoom);
+//				Random ran = new Random();
+//				int numRoom = ran.nextInt(5)+1;
+//				label_room.setText("Phòng: "+numRoom);
 				
 		}
 		
 	}
 	}
+	
+	public void xuLyPhimDuocChon(List<Phim> danhSachPhim) {
+	    StringBuilder sb = new StringBuilder("Phim đã chọn:\n");
+	    for (Phim p : danhSachPhim) {
+	        sb.append("Tên phim: ").append(p.getTenPhim()).append("\n");
+	        sb.append("Thể loại: ").append(p.getTheloai()).append("\n");
+	        sb.append("NSX: ").append(p.getDirector()).append("\n");
+	        sb.append("Năm SX: ").append(p.getReleaseYear()).append("\n");
+	        sb.append("Thời lượng: ").append(p.getDuration()).append("\n");
+	        sb.append("").append(p.getLichChieu()).append("\n");
+	        sb.append("Trạng thái: ").append(p.getTrangthai()).append("\n");
+	    }
+	   
+	    JOptionPane.showMessageDialog(this, sb.toString());
+	    
+	}
+
 
 	public static void main(String[] args) {
 		javax.swing.SwingUtilities.invokeLater(new Runnable() {
@@ -478,5 +478,6 @@ public class MainView extends JFrame {
 			}
 		});
 	}
+	
 	
 }

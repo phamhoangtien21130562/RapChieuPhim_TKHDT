@@ -13,7 +13,7 @@ public class Phim {
 	private String trangthai;
 	private List<Observer> observers;
 	private LichChieu lichChieu;
-	private Phim() {
+	public Phim() {
 		super();
 	}
 	
@@ -111,9 +111,12 @@ public class Phim {
 	public LichChieu getLichChieu() {
 		return lichChieu;
 	}
+
+
 	public void setLichChieu(LichChieu lichChieu) {
 		this.lichChieu = lichChieu;
 	}
+
 	
 	
 	

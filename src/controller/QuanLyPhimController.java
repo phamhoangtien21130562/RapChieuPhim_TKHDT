@@ -4,35 +4,38 @@ import model.LichChieu;
 import model.Phim;
 import model.QuanLyPhim;
 import view.DanhSachPhimView;
+import view.MainView;
 import view.QuanLyPhimView;
 
 public class QuanLyPhimController {
     private QuanLyPhim qlpmodel;
     private QuanLyPhimView view;
     private DanhSachPhimView danhSachView;
+    private MainView mainView;
 
     public QuanLyPhimController(QuanLyPhim qlpmodel, QuanLyPhimView view) {
         this.qlpmodel = qlpmodel;
         this.view = view;
 
-        // Kh?i t?o DanhSachPhimView và ??ng ký làm observer
-        danhSachView = new DanhSachPhimView();
+        //khoi tao DanhSachPhimView dang ky observer
+        danhSachView = new DanhSachPhimView(mainView);
         qlpmodel.dangKyObserver(danhSachView);
         danhSachView.setVisible(true);
 
-        // ??ng ký observer cho QuanLyPhimView 
+        // dang kÃ½ observers cho QuanLyPhimView 
         qlpmodel.dangKyObserver(view);
+       
 
-        // Kh?i t?o d? li?u m?u
+        //khoi tao du lieu
         qlpmodel.themPhimMau(qlpmodel);
 
-        // Thêm s? ki?n
+        // them su kien
         view.addThemListener(e -> themPhimMoi());
         view.addXoaTheoIdListener(e -> xoaPhimTheoId());
     }
 
     private void themPhimMoi() {
-        // L?y d? li?u t? view
+        // lay du lieu tu view
         String id = view.getId();
         String tenPhim = view.getTenPhim();
         String theLoai = view.getTheLoai();
