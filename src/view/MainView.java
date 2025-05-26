@@ -210,7 +210,6 @@ public class MainView extends JFrame {
 	                lable_seat.setText("Ghế: " + String.join(", ", seatList));
 	                Random ran = new Random();
 	                label_room.setText("Phòng: " + (ran.nextInt(5) + 1));
-	                card.show(card_common, "Tiếp tục");
 	            }
 	        });
 
@@ -253,21 +252,30 @@ public class MainView extends JFrame {
 				
 				panel_infor.add(rd_adult);
 				panel_infor.add(rd_student_OldPerson);
+				
 				//Thong tin combo
 				panel_center = new JPanel();
 				panel_center.setBorder(BorderFactory.createTitledBorder("Combo"));
 				panel_center.setLayout(new BorderLayout());
 				panel_combo = new JPanel();
-				panel_combo.setLayout(new GridLayout(3,3));
+				panel_combo.setLayout(new GridLayout(2,4));
 				
 				cb_corn_regular = new JCheckBox("Bắp thường(40000)");
 				cb_corn_caramel = new JCheckBox("Bắp caramel(45000)");
 				cb_corn_cheses = new JCheckBox("Bắp phô mai(60000)");
 				cb_softdrink = new JCheckBox("Nước ngọt(28000)");
 				
-				panel_combo.add(cb_corn_regular);panel_combo.add(cb_softdrink);
-				panel_combo.add(cb_corn_caramel);panel_combo.add(cb_corn_cheses);
+				// Tạo spinner để nhập số lượng từng combo (0 đến 10)
+				JSpinner spinner_caramel = new JSpinner(new SpinnerNumberModel(0, 0, 10, 1));
+				JSpinner spinner_regular = new JSpinner(new SpinnerNumberModel(0, 0, 10, 1));
+				JSpinner spinner_cheses = new JSpinner(new SpinnerNumberModel(0, 0, 10, 1));
+				JSpinner spinner_softdrink = new JSpinner(new SpinnerNumberModel(0, 0, 10, 1));
+
 				
+				panel_combo.add(cb_corn_regular);panel_combo.add(spinner_regular);
+				panel_combo.add(cb_softdrink);panel_combo.add(spinner_softdrink);
+				panel_combo.add(cb_corn_caramel);panel_combo.add(spinner_caramel);
+				panel_combo.add(cb_corn_cheses);panel_combo.add(spinner_cheses);
 				
 				model = new DefaultTableModel();
 				model.addColumn("STT");
@@ -279,51 +287,72 @@ public class MainView extends JFrame {
 				panel_button1_ = new JPanel();
 				button_complete = new JButton("Hoàn thành");
 				button_complete.addActionListener(new ActionListener() {
-					// Tao ra loai ve trung gian de cac decor phủ lên và tách gái vé riêng ra nhằm tránh các vé bị phủ lên = với số lượng vé.
+					// Tao ra loai ve trung gian de cac decor phủ lên và tách gias vé riêng ra nhằm tránh các vé bị phủ lên = với số lượng vé.
 					@Override
 					public void actionPerformed(ActionEvent e) {
 						// TODO Auto-generated method stub
-						String textGhe = lable_seat.getText();
-						textGhe = textGhe.replace("Ghế: ", "").trim();
-						String[] gheArray = textGhe.split(",");
-						int soLuongVe = gheArray.length;
 						
-						int giaVe =0;
+						String textSeat = lable_seat.getText();
+						textSeat = textSeat.replace("Ghế: ", "").trim();
+						String[] seatArray = textSeat.split(",");
+						int numTicket = seatArray.length;
+						
+						// Xu ly lay gia ve
+						int price =0;
 						if(rd_adult.isSelected()) {
-					      giaVe = (int) new AdultTicket().price();
+							price = (int) new AdultTicket().price();
 						}else {
 							if(rd_student_OldPerson.isSelected()) {
-								giaVe = (int) new HSSV_OldPersonTicket().price();
+								price = (int) new HSSV_OldPersonTicket().price();
 							}
 						}
-						int tongGiaVe = giaVe*soLuongVe;
+						int numPriceTicket = price*numTicket;
 			                model.setRowCount(0);
 			                stt = 0;
 			                
+			                //Xu ly chon combo
 			                Ticket ticket = new BasicTicket();
-			                if (cb_corn_regular.isSelected()) {
+			                int sl_regular = (int) spinner_regular.getValue();
+			                int sl_caramel = (int) spinner_caramel.getValue();
+			                int sl_cheses = (int) spinner_cheses.getValue();
+			                int sl_softdrink = (int) spinner_softdrink.getValue();
+
+			                for (int i = 0; i < sl_regular; i++) {
 			                    ticket = new RegularCorn(ticket);
 			                    model.addRow(new Object[]{++stt, "Bắp thường", 40000});
 			                }
-			                if (cb_corn_caramel.isSelected()) {
+
+			                for (int i = 0; i < sl_caramel; i++) {
 			                    ticket = new CaramelCorn(ticket);
 			                    model.addRow(new Object[]{++stt, "Bắp caramel", 45000});
 			                }
-			                if (cb_corn_cheses.isSelected()) {
+
+			                for (int i = 0; i < sl_cheses; i++) {
 			                    ticket = new ChesesCorn(ticket);
 			                    model.addRow(new Object[]{++stt, "Bắp phô mai", 60000});
 			                }
-			                if (cb_softdrink.isSelected()) {
+
+			                for (int i = 0; i < sl_softdrink; i++) {
 			                    ticket = new Softdrink(ticket);
 			                    model.addRow(new Object[]{++stt, "Nước ngọt", 28000});
 			                }
-			                int tongCombo = (int) ticket.price();
-			                int tongTien = tongGiaVe+tongCombo;
-			                lable_rice.setText("Tổng đơn hàng: " + tongTien + " đồng");
-			              //  JOptionPane.showMessageDialog(null, "Chi tiết: " + ticket.displayInfor());
+
+			                // Tổng tiền: giá vé + combo
+			                int totalCombo = (int) ticket.price();
+			                int totalPrice = numPriceTicket + totalCombo;
+			                lable_rice.setText("Tổng đơn hàng: " + totalPrice + " đồng");
+
+			     
+			                spinner_regular.setValue(0);
+			                spinner_caramel.setValue(0);
+			                spinner_cheses.setValue(0);
+			                spinner_softdrink.setValue(0);
+			                cb_corn_caramel.setSelected(false);
+			                cb_corn_cheses.setSelected(false);
+			                cb_corn_regular.setSelected(false);
+			                cb_softdrink.setSelected(false);
 			            }
 			        });
-			//	panel_button1_.add(button_remove);
 				panel_button1_.add(button_complete);
 				
 				panel_center.add(panel_combo,BorderLayout.NORTH);

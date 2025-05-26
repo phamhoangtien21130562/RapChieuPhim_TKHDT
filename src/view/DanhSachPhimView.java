@@ -37,27 +37,28 @@ public class DanhSachPhimView extends JFrame implements Observer {
             }
         };
         table = new JTable(tableModel);
-        btnKiemTraChon = new JButton("Kiểm tra dòng được chọn");
+        btnKiemTraChon = new JButton("Chọn xong");
 
         // Panel chứa bảng và nút
-        JPanel panel = new JPanel(new BorderLayout());
+       JPanel panel = new JPanel(new BorderLayout());
         panel.add(new JScrollPane(table), BorderLayout.CENTER);
         panel.add(btnKiemTraChon, BorderLayout.SOUTH);
 
         add(panel);
+       
 
-        //đăng ký sự kiện cho nút kiểm tra
-        btnKiemTraChon.addActionListener(e -> {
-            StringBuilder sb = new StringBuilder("Dòng được chọn:\n");
-            for (int i = 0; i < tableModel.getRowCount(); i++) {
-                Boolean checked = (Boolean) tableModel.getValueAt(i, 0);
-                if (checked != null && checked) {
-                    sb.append(" - ").append(tableModel.getValueAt(i, 1)).append(": ")  // ID phim
-                      .append(tableModel.getValueAt(i, 2)).append("\n");  // Tên phim
-                }
-            }
-            JOptionPane.showMessageDialog(this, sb.toString());
-        });
+//        //đăng ký sự kiện cho nút kiểm tra
+//        btnKiemTraChon.addActionListener(e -> {
+//            StringBuilder sb = new StringBuilder("Dòng được chọn:\n");
+//            for (int i = 0; i < tableModel.getRowCount(); i++) {
+//                Boolean checked = (Boolean) tableModel.getValueAt(i, 0);
+//                if (checked != null && checked) {
+//                    sb.append(" - ").append(tableModel.getValueAt(i, 1)).append(": ")  // ID phim
+//                      .append(tableModel.getValueAt(i, 2)).append("\n");  // Tên phim
+//                }
+//            }
+//            JOptionPane.showMessageDialog(this, sb.toString());
+//        });
     }
 
     @Override
