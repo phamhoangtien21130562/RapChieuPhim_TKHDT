@@ -1,142 +1,156 @@
-// Controller cho payment flow
 package controller;
 
 import model.*;
+import java.awt.CardLayout;
 import view.*;
+import java.awt.event.ActionListener;
 import javax.swing.*;
 
 public class PaymentController {
     private PaymentMethodView paymentMethodView;
-    private PaymentConfirmView paymentConfirmView;
-    private PaymentContext paymentContext;
+    private PaymentDetailView paymentDetailView;
+    private PaymentSuccessView paymentSuccessView;
+    private PaymentProcessor paymentProcessor;
+    private MainView originalMainView; 
     
     // Thông tin từ màn hình trước
+    private String showSchedule; 
     private String movieName;
     private String room;
     private String seats;
     private String ticketType;
     private String comboDetails;
     private double totalAmount;
-    
+    private String invoiceCode;
+    private String ticketCode;
+
     public PaymentController(String movieName, String room, String seats, 
-                           String ticketType, String comboDetails, double totalAmount) {
-        this.movieName = movieName;
-        this.room = room;
-        this.seats = seats;
-        this.ticketType = ticketType;
-        this.comboDetails = comboDetails;
-        this.totalAmount = totalAmount;
-        
-        this.paymentContext = new PaymentContext();
-        initPaymentMethodView();
+            String ticketType, String comboDetails, double totalAmount,
+            MainView originalMainView, String showSchedule) { 
+           this.movieName = movieName;
+           this.room = room;
+           this.seats = seats;
+           this.ticketType = ticketType;
+           this.comboDetails = comboDetails;
+           this.totalAmount = totalAmount;
+           this.originalMainView = originalMainView;
+           this.showSchedule = showSchedule; 
+
+           this.paymentProcessor = new PaymentProcessor();
+           this.invoiceCode = "HD" + System.currentTimeMillis();
+           this.ticketCode = "VE" + System.currentTimeMillis();
+
+           initPaymentMethodView();
     }
     
     private void initPaymentMethodView() {
         paymentMethodView = new PaymentMethodView();
         
-        // Set thông tin đơn hàng
         paymentMethodView.setMovieInfo(movieName, room);
         paymentMethodView.setSeatInfo(seats);
         paymentMethodView.setTicketType(ticketType);
         paymentMethodView.setComboDetails(comboDetails);
         paymentMethodView.setTotalAmount(totalAmount);
+        paymentMethodView.setScheduleInfo(showSchedule); 
         
-        // Add listeners
+        // Sử dụng PaymentProcessor để hiển thị thông tin phương thức đã chọn
+        paymentMethodView.setSelectedMethodInfo(paymentProcessor.getSelectedPaymentMethod());
+        
         paymentMethodView.addContinueListener(e -> handleContinuePayment());
         paymentMethodView.addBackListener(e -> handleBackToMainView());
+        
+        // Thêm listener để cập nhật thông tin khi chọn phương thức thanh toán
+        paymentMethodView.addPaymentMethodChangeListener(e -> handlePaymentMethodChange());
         
         paymentMethodView.setVisible(true);
     }
     
-    private void handleContinuePayment() {
+    // Method mới để xử lý khi thay đổi phương thức thanh toán
+    private void handlePaymentMethodChange() {
         String selectedMethod = paymentMethodView.getSelectedPaymentMethod();
         
-        if (selectedMethod == null) {
+        if (selectedMethod != null) {
+            // Set strategy dựa trên lựa chọn
+            if ("MoMo".equals(selectedMethod)) {
+                paymentProcessor.setPaymentStrategy(new MoMoPayment());
+            } else if ("Bank".equals(selectedMethod)) {
+                paymentProcessor.setPaymentStrategy(new BankPayment());
+            }
+            
+            // Cập nhật UI với thông tin từ PaymentProcessor 
+            paymentMethodView.setSelectedMethodInfo(paymentProcessor.getSelectedPaymentMethod());
+            paymentMethodView.setPaymentInstructions(paymentProcessor.getPaymentInstructions());
+        }
+    }
+    
+    private void handleContinuePayment() {
+        // Kiểm tra xem đã chọn phương thức thanh toán chưa 
+        if (!paymentProcessor.isPaymentMethodSelected()) {
             JOptionPane.showMessageDialog(paymentMethodView, 
                 "Vui lòng chọn phương thức thanh toán!", 
                 "Thông báo", JOptionPane.WARNING_MESSAGE);
             return;
         }
         
-        // Set payment strategy
-        if ("MoMo".equals(selectedMethod)) {
-            paymentContext.setPaymentStrategy(new MoMoPayment());
-        } else if ("Bank".equals(selectedMethod)) {
-            paymentContext.setPaymentStrategy(new BankPayment());
-        }
+        // Hiển thị thông tin phương thức đã chọn
+        String methodInfo = "Phương thức đã chọn: " + paymentProcessor.getSelectedPaymentMethod();
+        System.out.println(methodInfo); 
         
-        // Process payment
-        String paymentResult = paymentContext.executePayment(totalAmount);
-        
-        // Show confirmation screen
-        showPaymentConfirmation(selectedMethod, paymentResult);
+        // Show payment detail screen với thông tin từ PaymentProcessor
+        showPaymentDetail();
         paymentMethodView.dispose();
     }
     
-    private void showPaymentConfirmation(String method, String paymentResult) {
-        paymentConfirmView = new PaymentConfirmView();
+    private void showPaymentDetail() {
+        paymentDetailView = new PaymentDetailView();
         
-        // Extract transaction ID from result (simple parsing)
-        String transactionId = extractTransactionId(paymentResult);
+        // Sử dụng PaymentProcessor để lấy thông tin 
+        paymentDetailView.setPaymentDetails(
+            paymentProcessor.getSelectedPaymentMethod(), 
+            totalAmount, 
+            invoiceCode,
+            paymentProcessor.getAccountInfo(),
+            paymentProcessor.getPaymentInstructions()
+        );
         
-        paymentConfirmView.setPaymentResult(method, totalAmount, transactionId);
-        
-        // Generate ticket info
-        String ticketInfo = generateTicketInfo();
-        paymentConfirmView.setTicketInfo(ticketInfo);
-        
-        paymentConfirmView.addHomeListener(e -> {
-            paymentConfirmView.dispose();
-            // Navigate to home - có thể integrate với MainView hiện tại
-            MainView mainView = new MainView();
-            mainView.setVisible(true);
+        paymentDetailView.addBackListener(e -> {
+            paymentDetailView.dispose();
+            paymentMethodView.setVisible(true);
         });
         
-        paymentConfirmView.addPrintListener(e -> {
-            JOptionPane.showMessageDialog(paymentConfirmView, 
-                "Vé đã được in thành công!", 
-                "In vé", JOptionPane.INFORMATION_MESSAGE);
+        paymentDetailView.addConfirmListener(e -> {
+            // Process payment
+            String paymentResult = paymentProcessor.executePayment(totalAmount);
+            System.out.println("Kết quả thanh toán: " + paymentResult);
+            
+            showPaymentSuccess();
+            paymentDetailView.dispose();
         });
         
-        paymentConfirmView.setVisible(true);
+        paymentDetailView.setVisible(true);
     }
     
-    private String extractTransactionId(String paymentResult) {
-        // Simple extraction - có thể improve sau
-        String[] lines = paymentResult.split("\n");
-        for (String line : lines) {
-            if (line.contains("Mã giao dịch:")) {
-                return line.substring(line.indexOf(":") + 1).trim();
-            }
-        }
-        return "N/A";
+    private void showPaymentSuccess() {
+        paymentSuccessView = new PaymentSuccessView();
+        
+        // lấy tên phương thức thanh toán
+        paymentSuccessView.setPaymentResult(
+            totalAmount, 
+            paymentProcessor.getSelectedPaymentMethod(), 
+            invoiceCode, 
+            ticketCode
+        );
+        
+        paymentSuccessView.addHomeListener(e -> {
+            paymentSuccessView.dispose();
+            originalMainView.setVisible(true);
+        });
+        
+        paymentSuccessView.setVisible(true);
     }
-    
         
     private void handleBackToMainView() {
         paymentMethodView.dispose();
-        
-        // Tạo lại MainView với thông tin hiện tại
-        MainView mainView = new MainView();
-        mainView.restoreData(movieName, room, seats, ticketType, comboDetails, totalAmount);
-        mainView.showComboScreen(); // Chuyển đến màn hình combo
-        mainView.setVisible(true);
-    }
-    
-    private String generateTicketInfo() {
-        StringBuilder sb = new StringBuilder();
-        sb.append("=== THÔNG TIN VÉ ===\n");
-        sb.append("Phim: ").append(movieName).append("\n");
-        sb.append("Phòng: ").append(room).append("\n");
-        sb.append("Ghế: ").append(seats).append("\n");
-        sb.append("Loại vé: ").append(ticketType).append("\n");
-        sb.append("\n=== COMBO ===\n");
-        sb.append(comboDetails.isEmpty() ? "Không có combo" : comboDetails);
-        sb.append("\n\n=== THANH TOÁN ===\n");
-        sb.append("Phương thức: ").append(paymentContext.getSelectedPaymentMethod()).append("\n");
-        sb.append("Tổng tiền: ").append((int)totalAmount).append(" VNĐ\n");
-        sb.append("\nCảm ơn bạn đã sử dụng dịch vụ!");
-        
-        return sb.toString();
+        originalMainView.setVisible(true);
     }
 }

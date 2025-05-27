@@ -14,7 +14,21 @@ public class PaymentProcessor {
         return paymentStrategy.processPayment(amount);
     }
     
+
     public String getSelectedPaymentMethod() {
         return paymentStrategy != null ? paymentStrategy.getPaymentMethodName() : "Chưa chọn";
+    }
+    
+    
+    public String getPaymentInstructions() {
+        return paymentStrategy != null ? paymentStrategy.getPaymentInstructions() : "Chưa có hướng dẫn";
+    }
+    
+    public String getAccountInfo() {
+        return paymentStrategy != null ? paymentStrategy.getAccountInfo() : "Chưa có thông tin tài khoản";
+    }
+    
+    public boolean isPaymentMethodSelected() {
+        return paymentStrategy != null;
     }
 }

@@ -1,6 +1,7 @@
-package view;
+	package view;
 
 import java.awt.BorderLayout;
+
 import java.awt.CardLayout;
 import java.awt.Color;
 import java.awt.Dimension;
@@ -22,6 +23,7 @@ import javax.swing.table.DefaultTableModel;
 
 //import controller.DSPhimController;
 import controller.MainController;
+import controller.PaymentController;
 import model.AdultTicket;
 import model.BasicTicket;
 import model.CaramelCorn;
@@ -49,6 +51,7 @@ public class MainView extends JFrame {
 	private JPanel pane_DSP, panel_but, panel_chung;
 	private JButton button_cancel;
 	
+	
 	//Khanh
     private final int rows = 8; // a - h (theo chiều dọc)
     private final int cols = 5; // 1 - 5 (theo chiều ngang)
@@ -58,7 +61,7 @@ public class MainView extends JFrame {
     private JButton button_conti, button_qlai;
     private List<String> seatList = new ArrayList<String>();
     private JPanel panel_chung1, panel_chung2;
-    private CardLayout card;
+    public CardLayout card;
     private JPanel taoMucChuThich(String moTa, Color mau) {
         JPanel muc = new JPanel(new FlowLayout(FlowLayout.LEFT, 5, 0));
         JLabel mauLabel = new JLabel();
@@ -75,8 +78,11 @@ public class MainView extends JFrame {
 
 	
     //An
-	private JPanel panel_infor, panel_combo, panel_rice_button, panel_center, panel_button2, panel_button1_ ,panel_card, card_common,
-	card_home, card_menu_dsp, card_menu_;
+	private JPanel panel_infor, panel_combo, panel_rice_button, panel_center, panel_button2, panel_button1_ ,panel_card;
+	public JPanel card_common;
+	private JPanel card_home;
+	private JPanel card_menu_dsp;
+	private JPanel card_menu_;
 	public JLabel lable_name, lable_performance, label_room, lable_seat, lable_rice;
 	private JButton button_continue, button_back, button_remove, button_complete;
 	private JRadioButton rd_adult, rd_student_OldPerson;
@@ -86,8 +92,15 @@ public class MainView extends JFrame {
 	private DefaultTableModel model;
 	private JScrollPane scroll;
 	private int stt;
+	private int totalPrice;
 //	private Ticket ticket = new AdultTicket();
 
+	//phuoc
+	private PaymentController paymentController;
+	public String suatChieu = "";
+
+	
+	
 	public MainView() {
 		setTitle("Hệ thống đặt vé phim");
 		setSize(700, 450);
@@ -322,8 +335,8 @@ public class MainView extends JFrame {
 
 		                // Tổng tiền: giá vé + combo
 		                int totalCombo = (int) ticket.price();
-		                int totalPrice = numPriceTicket + totalCombo;
-		                lable_rice.setText("Tổng đơn hàng: " + totalPrice + " đồng     "+"Mã vé: "+ticket.ticketID);
+		                totalPrice = numPriceTicket + totalCombo;
+		                lable_rice.setText("Tổng đơn hàng: " + totalPrice + " đồng");
 
 		     
 		                spinner_regular.setValue(0);
@@ -350,6 +363,52 @@ public class MainView extends JFrame {
 			lable_rice = new JLabel("Tổng đơn hàng", JLabel.LEFT);
 			button_back = new JButton("Quay lại chọn ghế");
 			button_continue = new JButton("Tiếp tục");
+			button_continue.addActionListener(new ActionListener() {
+			    @Override
+			    public void actionPerformed(ActionEvent e) {
+			        // Get thông tin từ UI hiện tại
+			        String movieName = lable_name.getText().replace("Tên phim: ", "");
+			        String room = label_room.getText().replace("Phòng: ", "");
+			        String seats = lable_seat.getText().replace("Ghế: ", "");
+			        String showSchedule = lable_performance.getText().replace("Suất: ", "");
+			       
+			        
+			        // Determine ticket type
+			        String ticketType = "";
+			        if (rd_adult.isSelected()) {
+			            ticketType = "Người lớn";
+			        } else if (rd_student_OldPerson.isSelected()) {
+			            ticketType = "Học sinh - Người cao tuổi";
+			        }
+			        
+			        // Get combo details từ table
+			        StringBuilder comboDetails = new StringBuilder();
+			        for (int i = 0; i < model.getRowCount(); i++) {
+			            String productName = (String) model.getValueAt(i, 1);
+			            int price = (Integer) model.getValueAt(i, 2);
+			            comboDetails.append(productName).append(" - ").append(price).append(" VNĐ\n");
+			        }
+			        
+			        double totalAmount = totalPrice; 
+
+//			            JOptionPane.showInputDialog(this, 
+//			                "Vui lòng nhấn 'Hoàn thành' để tính tổng tiền trước khi tiếp tục!", 
+//			                "Thông báo", JOptionPane.WARNING_MESSAGE);
+//			            return;
+//			        }
+  
+			        // Tạo PaymentController và chuyển sang màn hình thanh toán
+			        paymentController = new PaymentController(
+			        	    movieName, room, seats, ticketType, 
+			        	    comboDetails.toString(), totalAmount, MainView.this, showSchedule // Thêm tham số này
+			        	);
+			        
+			               getCard().show(getCardCommon(), "Menu");
+			        
+			        setVisible(false);
+			    }
+			});
+
 			
 			panel_rice_button.add(lable_rice, BorderLayout.WEST);
 			panel_button2 = new JPanel();
@@ -370,7 +429,7 @@ public class MainView extends JFrame {
 				card_home = new JPanel();
 				card_home.add(welcomeLabel, BorderLayout.CENTER);
 				
-				CardLayout card = new CardLayout();
+				card = new CardLayout();
 				card_common = new JPanel(card);
 				card_common.add("Menu",card_home);
 				card_common.add("Đặt vé", pane_DSP);
@@ -431,6 +490,19 @@ public class MainView extends JFrame {
 	public JMenuItem getLoginMenuItem() {
 		return loginMenuItem;
 	}
+	public CardLayout getCard() {
+	    return card;
+	}
+
+	public JPanel getCardCommon() {
+	    return card_common;
+	}
+	
+	public int getTotalPrice() {
+		return totalPrice;
+	}
+
+
 	private class handleSeat implements ActionListener{
 
 		@Override

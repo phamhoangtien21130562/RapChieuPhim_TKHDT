@@ -117,6 +117,8 @@ public class DanhSachPhimView extends JFrame implements Observer {
 					mainView.lable_name.setText("Tên phim: "+name);
 					mainView.lable_performance.setText("Suất: "+per);
 					mainView.label_room.setText("Phòng chiếu: "+room);
+					mainView.suatChieu = per;
+					
 					
 					
 				}
