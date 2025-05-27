@@ -37,8 +37,9 @@ public class PaymentController {
            this.showSchedule = showSchedule; 
 
            this.paymentProcessor = new PaymentProcessor();
-           this.invoiceCode = "HD" + System.currentTimeMillis();
-           this.ticketCode = "VE" + System.currentTimeMillis();
+           long currentTime = System.currentTimeMillis();
+           this.invoiceCode = "HD" + currentTime;
+           this.ticketCode = "VE" + currentTime + (int)(Math.random() * 1000);
 
            initPaymentMethodView();
     }
