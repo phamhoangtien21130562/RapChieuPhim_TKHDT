@@ -84,7 +84,7 @@ public class MainView extends JFrame {
 	private JPanel card_menu_dsp;
 	private JPanel card_menu_;
 	public JLabel lable_name, lable_performance, label_room, lable_seat, lable_rice;
-	private JButton button_continue, button_back, button_remove, button_complete;
+	private JButton button_continue, button_back, button_complete;
 	private JRadioButton rd_adult, rd_student_OldPerson;
 	private ButtonGroup group;
 	private JCheckBox cb_corn_caramel, cb_corn_regular, cb_corn_cheses, cb_softdrink;
@@ -337,16 +337,7 @@ public class MainView extends JFrame {
 		                int totalCombo = (int) ticket.price();
 		                totalPrice = numPriceTicket + totalCombo;
 		                lable_rice.setText("Tổng đơn hàng: " + totalPrice + " đồng");
-
-		     
-		                spinner_regular.setValue(0);
-		                spinner_caramel.setValue(0);
-		                spinner_cheses.setValue(0);
-		                spinner_softdrink.setValue(0);
-		                cb_corn_caramel.setSelected(false);
-		                cb_corn_cheses.setSelected(false);
-		                cb_corn_regular.setSelected(false);
-		                cb_softdrink.setSelected(false);
+		                
 		            }
 		        });
 			panel_button1_.add(button_complete);
