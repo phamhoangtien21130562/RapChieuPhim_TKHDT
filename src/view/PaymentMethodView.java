@@ -76,7 +76,7 @@ public class PaymentMethodView extends JFrame {
         seatInfoLabel = new JLabel("Ghế: ");
         seatInfoLabel.setFont(new Font("Arial", Font.PLAIN, 13));
         
-        scheduleInfoLabel = new JLabel("Suất: 17h 30 ");
+        scheduleInfoLabel = new JLabel("Suất: ");
         scheduleInfoLabel.setFont(new Font("Arial", Font.PLAIN, 13));
         
         ticketTypeLabel = new JLabel("Loại vé: ");
