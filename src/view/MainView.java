@@ -1,7 +1,7 @@
 	package view;
 
 import java.awt.BorderLayout;
-
+import javax.swing.JOptionPane;
 import java.awt.CardLayout;
 import java.awt.Color;
 import java.awt.Dimension;
@@ -381,12 +381,17 @@ public class MainView extends JFrame {
 			        }
 			        
 			        double totalAmount = totalPrice; 
+			       if (!rd_adult.isSelected() && !rd_student_OldPerson.isSelected()) {
+			            JOptionPane.showMessageDialog(null,
+			                "Vui lòng chọn loại vé trước khi tiếp tục!");
+			            return;
+			        }
 
-//			            JOptionPane.showInputDialog(this, 
-//			                "Vui lòng nhấn 'Hoàn thành' để tính tổng tiền trước khi tiếp tục!", 
-//			                "Thông báo", JOptionPane.WARNING_MESSAGE);
-//			            return;
-//			        }
+			        if (totalPrice <= 0) {
+			            JOptionPane.showMessageDialog(null,
+			                "Vui lòng nhấn 'Hoàn thành' để tính tổng tiền trước khi tiếp tục!");
+			            return;
+			        }
   
 			        // Tạo PaymentController và chuyển sang màn hình thanh toán
 			        paymentController = new PaymentController(
