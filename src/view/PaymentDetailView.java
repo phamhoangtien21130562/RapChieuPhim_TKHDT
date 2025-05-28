@@ -110,7 +110,7 @@ public class PaymentDetailView extends JFrame {
     
     // sử dụng thông tin từ PaymentProcessor
     public void setPaymentDetails(String method, double amount, String invoiceCode, 
-                                 String accountInfo, String instructions) {
+                                 String accountInfo) {
         paymentMethodLabel.setText("Hình thức thanh toán: " + method);
         amountLabel.setText("Số tiền: " + String.format("%,d", (int)amount) + " VNĐ");
         transferContentLabel.setText("Nội dung chuyển khoản: " + invoiceCode);
