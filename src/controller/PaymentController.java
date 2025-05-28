@@ -110,8 +110,7 @@ public class PaymentController {
             paymentProcessor.getSelectedPaymentMethod(), 
             totalAmount, 
             invoiceCode,
-            paymentProcessor.getAccountInfo(),
-            paymentProcessor.getPaymentInstructions()
+            paymentProcessor.getAccountInfo()  
         );
         
         paymentDetailView.addBackListener(e -> {
