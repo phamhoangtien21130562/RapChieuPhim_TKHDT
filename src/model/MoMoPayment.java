@@ -3,10 +3,7 @@ package model;
 public class MoMoPayment implements PaymentStrategy {
     @Override
     public String processPayment(double amount) {
-      
-        String transactionId = "MOMO" + System.currentTimeMillis();
-        return "Thanh toán MoMo thành công!\nMã giao dịch: " + transactionId + 
-               "\nSố tiền: " + (int)amount + " VNĐ";
+         return "Thanh toán thành công qua Momo\nSố tiền: " + (int)amount + " VNĐ";
     }
     
     @Override
