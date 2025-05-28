@@ -3,10 +3,7 @@ package model;
 public class BankPayment implements PaymentStrategy {
     @Override
     public String processPayment(double amount) {
-      
-        String transactionId = "BANK" + System.currentTimeMillis();
-        return "Thanh toán ngân hàng thành công!\nMã giao dịch: " + transactionId + 
-               "\nSố tiền: " + (int)amount + " VNĐ";
+         return "Thanh toán thành công qua ngân hàng \nSố tiền: " + (int)amount + " VNĐ";
     }
     
     @Override
